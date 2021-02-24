@@ -14,6 +14,8 @@ import clearDatabaseRoute from "./routes/clearDatabaseRoute.js";
 
 const app = express();
 
+app.use(cors());
+
 app.use(express.json());
 
 app.use("/games", gameRoutes);

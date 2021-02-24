@@ -31,4 +31,4 @@ app.use("/clearDatabase", clearDatabaseRoute);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(5000, console.log("Running on port 5000"));
+app.listen(80, console.log("Running on port 80"));

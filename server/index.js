@@ -1,5 +1,5 @@
 import express from "express";
-import cors from "cors";
+// import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
@@ -14,11 +14,17 @@ import clearDatabaseRoute from "./routes/clearDatabaseRoute.js";
 
 const app = express();
 
-app.use(cors({
-    origin: "*",
-}));
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
-app.options('*', cors());
+// app.use(cors({
+//     origin: "*",
+// }));
+
+// app.options('*', cors());
 
 app.use(express.json());
 

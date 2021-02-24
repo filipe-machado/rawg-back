@@ -14,9 +14,7 @@ import clearDatabaseRoute from "./routes/clearDatabaseRoute.js";
 
 const app = express();
 
-app.use(cors({
-    origin: "https://rawgax.netlify.app/",
-}));
+app.use(cors());
 
 app.options('*', cors());
 

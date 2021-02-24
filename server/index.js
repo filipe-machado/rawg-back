@@ -31,4 +31,6 @@ app.use("/clearDatabase", clearDatabaseRoute);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(80, console.log("Running on port 80"));
+app.listen(process.env.PORT || 5555, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });

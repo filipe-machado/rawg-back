@@ -20,4 +20,4 @@ Backend:
 
 ### Inicialização 
 
-Instale as depedências com ``` yarn ``` e inicie o projeto: ``` yarn server ```
+Instale as depedências com ``` yarn ``` e inicie o projeto: ``` yarn start ```

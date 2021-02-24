@@ -3,6 +3,6 @@ import { getGameData } from "../controllers/gameController.js";
 
 const router = express.Router();
 
-router.get("/:id?", getGameData, );
+router.get("/:id?/:apiPath?", getGameData);
 
 export default router;

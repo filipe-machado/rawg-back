@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
@@ -13,20 +14,32 @@ import clearDatabaseRoute from "./routes/clearDatabaseRoute.js";
 
 const app = express();
 
-const allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+conf = {
+  port: process.env.PORT || process.argv[2] || 5555,
 
-    if ('OPTIONS' == req.method) {
-      res.send(200);
-    }
-    else {
+  originUndefined: function (req, res, next) {
+    if (!req.headers.origin) {
+      res.json({
+        mess: 'You are visiting the service locally.'
+      });
+    } else {
       next();
     }
+  },
+  cors: {
+    origin: function (origin, cb) {
+      let wl = ['https://rawgax.netlify.app'];
+      if (wl.indexOf(origin) != -1) {
+        cb(null, true);
+      } else {
+        cb(new Error('invalid origin: ' + origin), false);
+      }
+    },
+    optionsSuccessStatus: 200
+  }
 };
 
-app.use(allowCrossDomain);
+app.use(conf.originUndefined, cors(conf.cors));
 
 app.use(express.json());
 
@@ -39,6 +52,6 @@ app.use("/clearDatabase", clearDatabaseRoute);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(process.env.PORT || 5555, function(){
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });
+app.listen(conf.port, function(){
+  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+});

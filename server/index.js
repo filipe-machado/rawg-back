@@ -14,32 +14,11 @@ import clearDatabaseRoute from "./routes/clearDatabaseRoute.js";
 
 const app = express();
 
-conf = {
-  port: process.env.PORT || process.argv[2] || 5555,
+app.use(cors({
+    origin: "*",
+}));
 
-  originUndefined: function (req, res, next) {
-    if (!req.headers.origin) {
-      res.json({
-        mess: 'You are visiting the service locally.'
-      });
-    } else {
-      next();
-    }
-  },
-  cors: {
-    origin: function (origin, cb) {
-      let wl = ['https://rawgax.netlify.app'];
-      if (wl.indexOf(origin) != -1) {
-        cb(null, true);
-      } else {
-        cb(new Error('invalid origin: ' + origin), false);
-      }
-    },
-    optionsSuccessStatus: 200
-  }
-};
-
-app.use(conf.originUndefined, cors(conf.cors));
+app.options('*', cors());
 
 app.use(express.json());
 
@@ -52,6 +31,6 @@ app.use("/clearDatabase", clearDatabaseRoute);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(conf.port, function(){
-  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-});
+app.listen(process.env.PORT || 5555, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });

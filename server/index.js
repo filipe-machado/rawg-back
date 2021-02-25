@@ -14,7 +14,9 @@ import clearDatabaseRoute from "./routes/clearDatabaseRoute.js";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: "*",
+}));
 
 app.options('*', cors());
 
